@@ -26,7 +26,10 @@ aggregate_predictions <- function(models_or_predictions, aggregation_method, dat
     aggregation_method,
     "Trimmed Mean" = trimmed_mean(prediction_matrix, ...),
     "Bayesian Averaging" = bayesian_averaging(prediction_matrix, ...),
+    "Geometric Mean" = geometric_mean(predicition_matrix),
     "Exponential Smoothing" = exponential_smoothing(prediction_matrix, ...),
+    "Mean" = colMeans(predicition_matrix),
+    "Median" = apply(predicition_matrix, 2, median),
     stop("Invalid aggregation method specified.")
   )
 
