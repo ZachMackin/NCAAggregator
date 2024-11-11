@@ -19,7 +19,7 @@ aggregate_predictions <- function(models_or_predictions, aggregation_method, dat
   }
 
   # [ToDo] Convert the list of predictions to a matrix for easier aggregation
-
+  predicition_matrix <- do.call(rbind, predictions)
 
   # 2. Aggregate predictions based on specified method
   aggregated_prediction <- switch(
