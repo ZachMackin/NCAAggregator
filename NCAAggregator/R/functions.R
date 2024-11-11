@@ -1,4 +1,4 @@
-#some example models to utilize in the aggregator (potentially add in functionality to choose pretrained model weights vs having to train)
+#some example models to utilize in the aggregator (need to consider the functionality to choose a newly trained model weights vs the pretrained models in the fx)
 
 #[ToDo] add some hyperparameters here
 nearest_neighbors <- function(data, ...) {

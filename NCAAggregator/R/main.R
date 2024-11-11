@@ -1,5 +1,16 @@
 
 # Our primary function
+#' Title
+#'
+#' @param models_or_predictions <- a vector which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score
+#' @param aggregation_method <- A string representing the name of the aggregation method
+#' @param data <- A one row data frame with the selcted statistics (KP adj efficency, KP adj tempo, four factors, for each team)
+#' @param ... <- additional arguments to be passed in our aggregator
+#'
+#' @return A numeric length two vector containing the home score and away score
+#' @export
+#'
+#' @examples
 aggregate_predictions <- function(models_or_predictions, aggregation_method, data = NULL, ...) {
   # Initialize an empty list to store predictions as vectors (each with home and away scores)
   predictions <- list()
