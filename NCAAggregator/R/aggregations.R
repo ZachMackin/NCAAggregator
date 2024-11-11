@@ -3,7 +3,7 @@
 
 #' Title
 #'
-#' @param prediction_matrix Takes in a matrix
+#' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
 #' @param trim The proportion of scores you would like to remove before taking the mean
 #'
 #' @return a numeric length two vector containing the home score and away score forecasts using a trimmed mean
@@ -29,6 +29,15 @@ exponential_smoothing <- function(prediction_matrix, alpha = 0.5){
   #[ToDo] Implement exponential smoothing function
 }
 
+#' Title
+#'
+#' @param prediction_matrix A matrix with home scores in one column and away scores in the other
+#'
+#' @return a numeric length two vector containg the aggregated home and away score forcasts using a geometric mean
+#' @export
+#'
+#' @examples
 geometric_mean <- function(prediction_matrix) {
   #[ToDo] Implement our geometric mean function
+  return (apply(predicition_matrix, 2, function(x) exp(mean(log(x)))))
 }
