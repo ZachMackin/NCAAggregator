@@ -25,8 +25,17 @@ bayesian_averaging <- function(prediction_matrix, priors = NULL){
   #[ToDo] Implement Bayesian Averaging Function
 }
 
-exponential_smoothing <- function(prediction_matrix, alpha = 0.5){
-  #[ToDo] Implement exponential smoothing function
+exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
+  # Start smoothing from the first prediction and iteratively apply smoothing for both scores
+  home_score <- prediction_matrix[1, 1]
+  away_score <- prediction_matrix[1, 2]
+
+  for (i in 2:nrow(prediction_matrix)) {
+    home_score <- alpha * prediction_matrix[i, 1] + (1 - alpha) * home_score
+    away_score <- alpha * prediction_matrix[i, 2] + (1 - alpha) * away_score
+  }
+
+  return(c(home_score, away_score))
 }
 
 #' Title
