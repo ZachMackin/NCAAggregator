@@ -21,8 +21,22 @@ trimmed_mean <- function(prediction_matrix, trim = 0.1) {
   return(c(home_trimmed, away_trimmed))
 }
 
-bayesian_averaging <- function(prediction_matrix, priors = NULL){
-  #[ToDo] Implement Bayesian Averaging Function
+bayesian_averaging <- function(prediction_matrix, priors) {
+
+  # Validate priors
+  if (length(priors) != nrow(prediction_matrix)) {
+    stop("Length of priors must match the number of rows in prediction_matrix.")
+  }
+  if (any(priors < 0) || sum(priors) != 1) {
+    stop("Priors must be non-negative and sum to 1.")
+  }
+
+  # Compute Bayesian averaging for home and away scores
+  bayesian_home_score <- sum(prediction_matrix[, 1] * priors)
+  bayesian_away_score <- sum(prediction_matrix[, 2] * priors)
+
+  # Return the aggregated scores as a vector
+  return(c(bayesian_home_score, bayesian_away_score))
 }
 
 exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
@@ -47,6 +61,5 @@ exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
 #'
 #' @examples
 geometric_mean <- function(prediction_matrix) {
-  #[ToDo] Implement our geometric mean function
   return (apply(predicition_matrix, 2, function(x) exp(mean(log(x)))))
 }
