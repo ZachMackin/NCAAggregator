@@ -49,6 +49,10 @@ basketball_data <- basketball_data %>%
   ungroup()
 
 # Calculate Four Factors for season-to-date stats
+#eFG%  = (.5*3FGM + FGM) / FGA
+#TO% = TO / Possessions
+#OR% = OR / (OR + DRopp)
+#FTRate = FTA / FGA
 basketball_data <- basketball_data %>%
   mutate(
     eFG_pct = ifelse(!is.na(cum_FGA), ((0.5 * cum_3FGM + cum_FGM) / cum_FGA) * 100, NA),
