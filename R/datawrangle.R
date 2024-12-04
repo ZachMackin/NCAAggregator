@@ -30,4 +30,29 @@ basketball_data <- basketball_data %>%
 basketball_data <- basketball_data %>%
   mutate(possessions = (field_goals_attempted - offensive_rebounds) + turnovers + (0.44 * free_throws_attempted))
 
+basketball_data <- basketball_data %>%
+  arrange(team_id, season, game_date)
 
+# Calculate cumulative stats for each team up to (but not including) the current game
+basketball_data <- basketball_data %>%
+  group_by(team_id, season) %>%
+  mutate(
+    cum_FGM = lag(cumsum(field_goals_made), default = NA),
+    cum_3FGM = lag(cumsum(three_point_made), default = NA),
+    cum_FGA = lag(cumsum(field_goals_attempted), default = NA),
+    cum_OR = lag(cumsum(offensive_rebounds), default = NA),
+    cum_DR = lag(cumsum(defensive_rebounds), default = NA),
+    cum_TO = lag(cumsum(turnovers), default = NA),
+    cum_FTA = lag(cumsum(free_throws_attempted), default = NA),
+    cum_possessions = lag(cumsum(possessions), default = NA)
+  ) %>%
+  ungroup()
+
+# Calculate Four Factors for season-to-date stats
+basketball_data <- basketball_data %>%
+  mutate(
+    eFG_pct = ifelse(!is.na(cum_FGA), ((0.5 * cum_3FGM + cum_FGM) / cum_FGA) * 100, NA),
+    TO_pct = ifelse(!is.na(cum_possessions), (cum_TO / cum_possessions) * 100, NA),
+    OR_pct = ifelse(!is.na(cum_OR + cum_DR), (cum_OR / (cum_OR + cum_DR)) * 100, NA),
+    FT_rate = ifelse(!is.na(cum_FGA), cum_FTA / cum_FGA, NA)
+  )
