@@ -26,3 +26,8 @@ home_away_scores <- basketball_data %>%
 basketball_data <- basketball_data %>%
   left_join(home_away_scores, by = "game_id")
 
+#Calulate Number of Possesions as (FGA−OR) + TO + (0.44×FTA)
+basketball_data <- basketball_data %>%
+  mutate(possessions = (field_goals_attempted - offensive_rebounds) + turnovers + (0.44 * free_throws_attempted))
+
+
