@@ -91,11 +91,29 @@ basketball_data <- basketball_data %>%
     defensive_efficiency = ifelse(!is.na(cum_opponent_possessions), (cum_opponent_points / cum_opponent_possessions) * 100, NA)
   )
 
+# Calculate pace (our final metric) and filter first 5 games for each team (as these will likely not be predicative)
+basketball_data <- basketball_data %>%
+  arrange(team_id, season, game_date) %>% # Ensure data is ordered
+  group_by(team_id, season) %>%
+  mutate(
+    game_number = row_number(), # Assign game numbers within the season for each team
+    cum_possessions = lag(cumsum(possessions), default = NA), # Cumulative possessions
+    cum_games = lag(game_number, default = NA), # Cumulative games played (lagged)
+    pace = ifelse(!is.na(cum_games) & cum_games > 0, cum_possessions / cum_games, NA) # Calculate pace
+  ) %>%
+  filter(game_number > 5) %>% # Exclude first 5 games
+  ungroup()
+
+#Filtering out anything with NAs (two cases caused this for some games itll be one teams 6th game but another teams 5th
+#also some games included D2 teams)
+basketball_data <- basketball_data %>%
+  filter(if_all(everything(), ~ !is.na(.)))
+
 #Selecting just the data we need
 basketball_data_wide <- basketball_data %>%
   select(
     game_id, home_away, team_id, team_name, score, eFG_pct, TO_pct, OR_pct, FT_rate,
-    offensive_efficiency, defensive_efficiency
+    offensive_efficiency, defensive_efficiency, pace
   )
 
 #Getting The data in one row per game format
@@ -105,8 +123,7 @@ regression_data <- basketball_data_wide %>%
     names_from = home_away,
     values_from = c(
       team_id, team_name, score, eFG_pct, TO_pct, OR_pct, FT_rate,
-      offensive_efficiency, defensive_efficiency
+      offensive_efficiency, defensive_efficiency, pace
     ),
     names_glue = "{.value}_{tolower(home_away)}"
   )
-

@@ -5,8 +5,13 @@ nearest_neighbors <- function(data, ...) {
   #[ToDo] Implement our nearest_neighbors funcion
 }
 
-log5_model <- function(data){
+log5_model <- function(data, pythogorean_param=11.5){
   #[ToDo] Implement a log5 model
+  #Calulate Pythagorean Scores for each team
+
+  #use Log 5 to get win percentage
+
+  #Backtrack from normal CDF to get score prediction
 }
 
 #[ToDo] add some hyperparameters here (i.e regularization term)
