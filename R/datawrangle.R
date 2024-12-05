@@ -90,3 +90,23 @@ basketball_data <- basketball_data %>%
     offensive_efficiency = ifelse(!is.na(cum_possessions), (cum_points / cum_possessions) * 100, NA),
     defensive_efficiency = ifelse(!is.na(cum_opponent_possessions), (cum_opponent_points / cum_opponent_possessions) * 100, NA)
   )
+
+#Selecting just the data we need
+basketball_data_wide <- basketball_data %>%
+  select(
+    game_id, home_away, team_id, team_name, score, eFG_pct, TO_pct, OR_pct, FT_rate,
+    offensive_efficiency, defensive_efficiency
+  )
+
+#Getting The data in one row per game format
+regression_data <- basketball_data_wide %>%
+  pivot_wider(
+    id_cols = game_id,
+    names_from = home_away,
+    values_from = c(
+      team_id, team_name, score, eFG_pct, TO_pct, OR_pct, FT_rate,
+      offensive_efficiency, defensive_efficiency
+    ),
+    names_glue = "{.value}_{tolower(home_away)}"
+  )
+
