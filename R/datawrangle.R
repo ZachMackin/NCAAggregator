@@ -2,6 +2,7 @@ basketball_data <- read.csv("team_box_2022.csv")
 library(dplyr)
 library(tidyr)
 
+
 # Split the combined columns into separate columns
 basketball_data <- basketball_data %>%
   separate(field_goals_made_field_goals_attempted, into = c("field_goals_made", "field_goals_attempted"), sep = "-", convert = TRUE) %>%
@@ -44,7 +45,9 @@ basketball_data <- basketball_data %>%
     cum_DR = lag(cumsum(defensive_rebounds), default = NA),
     cum_TO = lag(cumsum(turnovers), default = NA),
     cum_FTA = lag(cumsum(free_throws_attempted), default = NA),
-    cum_possessions = lag(cumsum(possessions), default = NA)
+    cum_possessions = lag(cumsum(possessions), default = NA),
+    cum_possessions = lag(cumsum(possessions), default = NA),
+    cum_points = lag(cumsum(score), default = NA)
   ) %>%
   ungroup()
 
@@ -59,4 +62,31 @@ basketball_data <- basketball_data %>%
     TO_pct = ifelse(!is.na(cum_possessions), (cum_TO / cum_possessions) * 100, NA),
     OR_pct = ifelse(!is.na(cum_OR + cum_DR), (cum_OR / (cum_OR + cum_DR)) * 100, NA),
     FT_rate = ifelse(!is.na(cum_FGA), cum_FTA / cum_FGA, NA)
+  )
+
+# Calculate opponent points and possessions by leveraging the game_id
+basketball_data <- basketball_data %>%
+  group_by(game_id) %>%
+  mutate(
+    opponent_points = score[home_away != first(home_away)],
+    opponent_possessions = possessions[home_away != first(home_away)]
+  ) %>%
+  ungroup()
+
+# Calculate cumulative opponent stats
+basketball_data <- basketball_data %>%
+  group_by(team_id, season) %>%
+  mutate(
+    cum_opponent_points = lag(cumsum(opponent_points), default = NA),
+    cum_opponent_possessions = lag(cumsum(opponent_possessions), default = NA)
+  ) %>%
+  ungroup()
+
+# Calculate offensive and defensive efficiencies
+#OFF EFFICENCY team_points/team_possesions
+#DEF EFFICENCY opp_points/opp_possesions
+basketball_data <- basketball_data %>%
+  mutate(
+    offensive_efficiency = ifelse(!is.na(cum_possessions), (cum_points / cum_possessions) * 100, NA),
+    defensive_efficiency = ifelse(!is.na(cum_opponent_possessions), (cum_opponent_points / cum_opponent_possessions) * 100, NA)
   )
