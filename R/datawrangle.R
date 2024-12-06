@@ -9,9 +9,6 @@ basketball_data <- basketball_data %>%
   separate(three_point_field_goals_made_three_point_field_goals_attempted, into = c("three_point_made", "three_point_attempted"), sep = "-", convert = TRUE) %>%
   separate(free_throws_made_free_throws_attempted, into = c("free_throws_made", "free_throws_attempted"), sep = "-", convert = TRUE)
 
-# Convert necessary columns to numeric
-basketball_data <- basketball_data %>%
-  mutate(across(c(field_goals_made, three_point_made, free_throws_made), as.numeric))
 
 # Calculate scores considering the overlap between field goals and three-pointers
 basketball_data <- basketball_data %>%
