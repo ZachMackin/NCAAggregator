@@ -1,6 +1,5 @@
 #some example models to utilize in the aggregator (need to consider the functionality to choose a newly trained model weights vs the pretrained models in the fx)
 
-#[ToDo] add some hyperparameters here
 efficency_model <- function(data) {
   # Adjust Offensive and Defensive Efficiencies by 1.4% (home court advantage)
   home_off_eff <- data$offensive_efficiency_home * 1.014
