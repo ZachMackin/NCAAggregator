@@ -74,6 +74,51 @@ log5_model <- function(data, pythagorean_param=11.5){
 #[ToDo] add some hyperparameters here (i.e regularization term)
 linear_reg_model <- function(data){
   #[ToDo] Implement the linear regression model
+  #Our Coefficients from training a linear model on the 2022 college basketball games
+  coefficients_home <- c(
+    intercept = -54.24337503,
+    eFG_pct_home = -0.15161308,
+    eFG_pct_away = 0.14775478,
+    TO_pct_home = -0.22735459,
+    TO_pct_away = -0.28364625,
+    OR_pct_home = -0.05209067,
+    OR_pct_away = -0.06627774,
+    FT_rate_home = -0.16963608,
+    FT_rate_away = -4.77326491,
+    offensive_efficiency_home = 0.45386923,
+    defensive_efficiency_home = 0.03767082,
+    offensive_efficiency_away = -0.39861865,
+    defensive_efficiency_away = 0.22665027,
+    pace_home = 0.64974889,
+    pace_away = 0.87516834
+  )
+  coefficients_away <- c(
+    intercept = -69.7678001,
+    eFG_pct_home = -0.1213718,
+    eFG_pct_away = -0.3408643,
+    TO_pct_home = -0.1035799,
+    TO_pct_away = 0.1830721,
+    OR_pct_home = -0.1296334,
+    OR_pct_away = -0.1655520,
+    FT_rate_home = -11.4963686,
+    FT_rate_away = -4.1895024,
+    offensive_efficiency_home = -0.2352713,
+    defensive_efficiency_home = 0.1984820,
+    offensive_efficiency_away = 0.6137461,
+    defensive_efficiency_away = 0.0262994,
+    pace_home = 1.0192786,
+    pace_away = 0.6419960
+  )
+  features_name <- names(coefficients_home)[-1] # Exclude the intercept
+  features_vec <- data[features_name]
+
+  # Calculate the prediction for the home score
+  home_score <- coefficients_home["intercept"] + sum(coefficients_home[features_name] * features_vec)
+
+  # Calculate the prediction for the away score
+  away_score <- coefficients_away["intercept"] + sum(coefficients_away[features_name] * features_vec)
+
+  return (list(home_score = home_score, away_score = away_score))
 }
 
 #[ToDo] add some hyperparameters here (i.e #layers, learning rate, optimizer, etc)
