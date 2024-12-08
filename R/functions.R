@@ -53,7 +53,7 @@ log5_model <- function(data, pythagorean_param=11.5){
     (pythagorean_home + pythagorean_away - (2 * pythagorean_home * pythagorean_away))
 
   # Convert Win Probability to Margin
-  # Solve for Margin using the equation: Win Prob = 0.0271 * Margin + 0.4707 (from KP)
+  # Solve for Margin using the equation: Win Prob = 0.0271 * Margin + 0.4707 (from KenPom Normal CDF)
   margin <- (win_prob_home - 0.4707) / 0.0271
 
   #Calculate Average Score
@@ -121,7 +121,54 @@ linear_reg_model <- function(data){
   return (list(home_score = home_score, away_score = away_score))
 }
 
-#[ToDo] add some hyperparameters here (i.e #layers, learning rate, optimizer, etc)
-simple_nueral_net <- function(data){
-  #[ToDo] Implement the DL model
+
+logistic_model <- function(data){
+  # Coefficients from training a logistic regression model
+  coefficients <- c(
+    intercept = 4.067095,
+    eFG_pct_home = -0.016828,
+    eFG_pct_away = 0.075402,
+    TO_pct_home = -0.023484,
+    TO_pct_away = -0.081895,
+    OR_pct_home = 0.001401,
+    OR_pct_away = 0.031390,
+    FT_rate_home = 0.940597,
+    FT_rate_away = -1.280705,
+    offensive_efficiency_home = 0.095749,
+    defensive_efficiency_home = -0.034996,
+    offensive_efficiency_away = -0.150079,
+    defensive_efficiency_away = 0.029773,
+    pace_home = -0.036334,
+    pace_away = 0.034040
+  )
+
+  features_name <- names(coefficients)[-1] # Exclude the intercept
+  features_vec <- data[features_name]
+
+  # Calculate the linear predictor
+  linear_predictor <- coefficients["intercept"] + sum(coefficients[features_name] * features_vec)
+
+  # Calculate the win probability using the logistic function
+  win_probability <- 1 / (1 + exp(-linear_predictor))
+
+  # Convert win probability to margin
+  margin <- (win_probability - 0.4707) / 0.0271
+
+  # Calculate the average score for the game
+  home_off_eff <- data$offensive_efficiency_home * 1.014
+  home_def_eff <- data$defensive_efficiency_home * 0.986
+  away_off_eff <- data$defensive_efficiency_away * 0.986
+  away_def_eff <- data$offensive_efficiency_away * 1.014
+  pace_home <- data$pace_home
+  pace_away <- data$pace_away
+  home_avg_score <- (home_off_eff * (pace_home / 100) + away_def_eff * (pace_away / 100)) / 2
+  away_avg_score <- (away_off_eff * (pace_away / 100) + home_def_eff * (pace_home / 100)) / 2
+  avg_score <- (home_avg_score + away_avg_score) / 2
+
+  # Calculate Home and Away Scores Using the Margin
+  home_score <- avg_score + (margin / 2)
+  away_score <- avg_score - (margin / 2)
+
+  return(list(home_score = home_score, away_score = away_score))
 }
+

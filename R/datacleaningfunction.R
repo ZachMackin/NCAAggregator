@@ -80,10 +80,7 @@ wrangle_basketball_data <- function(basketball_data) {
     ) %>%
     # Exclude first 5 games
     filter(game_number > 5)  %>%
-    ungroup() %>%
-    #Filtering out anything with NAs (two cases caused this for some games itll be one teams 6th game but another teams 5th
-    #also some games included D2 teams)
-    filter(if_all(everything(), ~ !is.na(.)))
+    ungroup()
 
   #Selecting just the data we need
   #Getting The data in one row per game format
@@ -102,5 +99,8 @@ wrangle_basketball_data <- function(basketball_data) {
       names_glue = "{.value}_{tolower(home_away)}"
     )
 
+  #Filtering out anything with NAs (two cases caused this for some games itll be one teams 6th game but another teams 5th
+  #also some games included D2 teams)
+  regression_data <- drop_na(regression_data)
   return(regression_data)
 }
