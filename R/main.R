@@ -18,9 +18,11 @@ aggregate_predictions <- function(models_or_predictions, aggregation_method, dat
   # 1. Loop through each element in models_or_predictions
   for (item in models_or_predictions) {
     if (is.function(item)) {
-      #[ToDo] find a way to ensure the function takes in the right arguments and outputs the right prediction?
+      pred <- item(data)
       # If the item is a function (i.e., a model), use it to generate a prediction
-      predictions[[length(predictions) + 1]] <- item(data)
+      if (is.numeric(pred) && length(pred) == 2){
+        predictions[[length(predictions) + 1]] <- pred
+      }
     } else if (is.numeric(item) && length(item) == 2) {
       # If the item is a numeric vector of length 2, treat it as a pre-generated prediction
       predictions[[length(predictions) + 1]] <- item

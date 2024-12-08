@@ -11,6 +11,20 @@
 #'
 #' @examples
 trimmed_mean <- function(prediction_matrix, trim = 0.1) {
+  # Check if the input is a matrix
+  if (!is.matrix(prediction_matrix)) {
+    stop("The input must be a matrix.")
+  }
+
+  # Check if the matrix has exactly two columns
+  if (ncol(prediction_matrix) != 2) {
+    stop("The matrix must have exactly two columns: one for home scores and one for away scores.")
+  }
+
+  # Check if the matrix has numeric entries
+  if (!is.numeric(prediction_matrix)) {
+    stop("The matrix must contain numeric values.")
+  }
   #[ToDo] Implement our trimmed mean function
   home_scores <- predicition_matrix[ , 1]
   away_scores <- prediction_matrix[ , 2]
@@ -22,7 +36,20 @@ trimmed_mean <- function(prediction_matrix, trim = 0.1) {
 }
 
 bayesian_averaging <- function(prediction_matrix, priors) {
+  # Check if the input is a matrix
+  if (!is.matrix(prediction_matrix)) {
+    stop("The input must be a matrix.")
+  }
 
+  # Check if the matrix has exactly two columns
+  if (ncol(prediction_matrix) != 2) {
+    stop("The matrix must have exactly two columns: one for home scores and one for away scores.")
+  }
+
+  # Check if the matrix has numeric entries
+  if (!is.numeric(prediction_matrix)) {
+    stop("The matrix must contain numeric values.")
+  }
   # Validate priors
   if (length(priors) != nrow(prediction_matrix)) {
     stop("Length of priors must match the number of rows in prediction_matrix.")
@@ -40,6 +67,20 @@ bayesian_averaging <- function(prediction_matrix, priors) {
 }
 
 exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
+  # Check if the input is a matrix
+  if (!is.matrix(prediction_matrix)) {
+    stop("The input must be a matrix.")
+  }
+
+  # Check if the matrix has exactly two columns
+  if (ncol(prediction_matrix) != 2) {
+    stop("The matrix must have exactly two columns: one for home scores and one for away scores.")
+  }
+
+  # Check if the matrix has numeric entries
+  if (!is.numeric(prediction_matrix)) {
+    stop("The matrix must contain numeric values.")
+  }
   # Start smoothing from the first prediction and iteratively apply smoothing for both scores
   home_score <- prediction_matrix[1, 1]
   away_score <- prediction_matrix[1, 2]
@@ -61,5 +102,19 @@ exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
 #'
 #' @examples
 geometric_mean <- function(prediction_matrix) {
+  # Check if the input is a matrix
+  if (!is.matrix(prediction_matrix)) {
+    stop("The input must be a matrix.")
+  }
+
+  # Check if the matrix has exactly two columns
+  if (ncol(prediction_matrix) != 2) {
+    stop("The matrix must have exactly two columns: one for home scores and one for away scores.")
+  }
+
+  # Check if the matrix has numeric entries
+  if (!is.numeric(prediction_matrix)) {
+    stop("The matrix must contain numeric values.")
+  }
   return (apply(predicition_matrix, 2, function(x) exp(mean(log(x)))))
 }
