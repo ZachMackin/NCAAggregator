@@ -116,5 +116,5 @@ geometric_mean <- function(prediction_matrix) {
   if (!is.numeric(prediction_matrix)) {
     stop("The matrix must contain numeric values.")
   }
-  return (apply(predicition_matrix, 2, function(x) exp(mean(log(x)))))
+  return (apply(prediction_matrix, 2, function(x) exp(mean(log(x)))))
 }

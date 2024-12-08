@@ -29,7 +29,7 @@ efficency_model <- function(data) {
   home_score <- avg_score + (margin / 2)
   away_score <- avg_score - (margin / 2)
 
-  return(list(home_score = home_score, away_score = away_score))
+  return (c(home_score, away_score))
 
 }
 
@@ -67,7 +67,7 @@ log5_model <- function(data, pythagorean_param=11.5){
   home_score <- avg_score + (margin / 2)
   away_score <- avg_score - (margin / 2)
 
-  return(list(home_score = home_score, away_score = away_score))
+  return (c(home_score, away_score))
 }
 
 #[ToDo] add some hyperparameters here (i.e regularization term)
@@ -109,15 +109,15 @@ linear_reg_model <- function(data){
     pace_away = 0.6419960
   )
   features_name <- names(coefficients_home)[-1] # Exclude the intercept
-  features_vec <- data[features_name]
+  features_vec <- as.numeric(data[features_name])
 
   # Calculate the prediction for the home score
-  home_score <- coefficients_home["intercept"] + sum(coefficients_home[features_name] * features_vec)
+  home_score <- unname(coefficients_home["intercept"] + sum(coefficients_home[features_name] * features_vec))
 
   # Calculate the prediction for the away score
-  away_score <- coefficients_away["intercept"] + sum(coefficients_away[features_name] * features_vec)
+  away_score <- unname(coefficients_away["intercept"] + sum(coefficients_away[features_name] * features_vec))
 
-  return (list(home_score = home_score, away_score = away_score))
+  return (c(home_score, away_score))
 }
 
 
@@ -142,7 +142,7 @@ logistic_model <- function(data){
   )
 
   features_name <- names(coefficients)[-1] # Exclude the intercept
-  features_vec <- data[features_name]
+  features_vec <- as.numeric(data[features_name])
 
   # Calculate the linear predictor
   linear_predictor <- coefficients["intercept"] + sum(coefficients[features_name] * features_vec)
@@ -165,9 +165,9 @@ logistic_model <- function(data){
   avg_score <- (home_avg_score + away_avg_score) / 2
 
   # Calculate Home and Away Scores Using the Margin
-  home_score <- avg_score + (margin / 2)
-  away_score <- avg_score - (margin / 2)
+  home_score <- unname(avg_score + (margin / 2))
+  away_score <- unname(avg_score - (margin / 2))
 
-  return(list(home_score = home_score, away_score = away_score))
+  return (c(home_score, away_score))
 }
 
