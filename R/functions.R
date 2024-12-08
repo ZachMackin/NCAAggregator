@@ -1,5 +1,32 @@
 #some example models to utilize in the aggregator (need to consider the functionality to choose a newly trained model weights vs the pretrained models in the fx)
 
+#' Title
+#'
+#' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
+#'
+#' @return a numeric length two vector containing the home score and away score of the model
+#' @export
+#'
+#' @examples
+#' #Game Data from TAMU 11/30/2024
+#' game_data <- list(
+#' eFG_pct_home = 47.2,
+#' eFG_pct_away = 50.8,
+#' TO_pct_home = 18.3,
+#' TO_pct_away = 14.6,
+#' OR_pct_home = 43.6,
+#' OR_pct_away = 30.2,
+#' FT_rate_home = .438,
+#' FT_rate_away = .397,
+#' offensive_efficiency_home = 114.3,
+#' defensive_efficiency_home = 94.0,
+#' offensive_efficiency_away = 111.9,
+#' defensive_efficiency_away = 101.4,
+#' pace_home = 67.0,
+#' pace_away = 70.3
+#' )
+#' efficency_model(game_data)
+#' #Actual Score was 81-77
 efficency_model <- function(data) {
   # Adjust Offensive and Defensive Efficiencies by 1.4% (home court advantage)
   home_off_eff <- data$offensive_efficiency_home * 1.014
@@ -33,6 +60,34 @@ efficency_model <- function(data) {
 
 }
 
+#' Title
+#'
+#' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
+#' @param pythagorean_param the exponenet in our Pythogorean Score function (highly reccommended to keep at default 11.5 for best behavior)
+#'
+#' @returna numeric length two vector containing the home score and away score of the model
+#' @export
+#'
+#' @examples
+#' #Game Data from TAMU 11/30/2024
+#' game_data <- list(
+#' eFG_pct_home = 47.2,
+#' eFG_pct_away = 50.8,
+#' TO_pct_home = 18.3,
+#' TO_pct_away = 14.6,
+#' OR_pct_home = 43.6,
+#' OR_pct_away = 30.2,
+#' FT_rate_home = .438,
+#' FT_rate_away = .397,
+#' offensive_efficiency_home = 114.3,
+#' defensive_efficiency_home = 94.0,
+#' offensive_efficiency_away = 111.9,
+#' defensive_efficiency_away = 101.4,
+#' pace_home = 67.0,
+#' pace_away = 70.3
+#' )
+#' log5_model(game_data)
+#' #Actual Score was 81-77
 log5_model <- function(data, pythagorean_param=11.5){
   # Adjust Offensive and Defensive Efficiencies by 1.4% (home court advantage)
   home_off_eff <- data$offensive_efficiency_home * 1.014
@@ -70,9 +125,34 @@ log5_model <- function(data, pythagorean_param=11.5){
   return (c(home_score, away_score))
 }
 
-#[ToDo] add some hyperparameters here (i.e regularization term)
+#' Title
+#'
+#' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
+#'
+#' @return a numeric length two vector containing the home score and away score of the model
+#' @export
+#'
+#' @examples
+#' #Game Data from TAMU 11/30/2024
+#' game_data <- list(
+#' eFG_pct_home = 47.2,
+#' eFG_pct_away = 50.8,
+#' TO_pct_home = 18.3,
+#' TO_pct_away = 14.6,
+#' OR_pct_home = 43.6,
+#' OR_pct_away = 30.2,
+#' FT_rate_home = .438,
+#' FT_rate_away = .397,
+#' offensive_efficiency_home = 114.3,
+#' defensive_efficiency_home = 94.0,
+#' offensive_efficiency_away = 111.9,
+#' defensive_efficiency_away = 101.4,
+#' pace_home = 67.0,
+#' pace_away = 70.3
+#' )
+#' linear_reg_model(game_data)
+#' #Actual Score was 81-77
 linear_reg_model <- function(data){
-  #[ToDo] Implement the linear regression model
   #Our Coefficients from training a linear model on the 2022 college basketball games
   coefficients_home <- c(
     intercept = -54.24337503,
@@ -121,8 +201,35 @@ linear_reg_model <- function(data){
 }
 
 
+#' Title
+#'
+#' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
+#'
+#' @return a numeric length two vector containing the home score and away score of the model
+#' @export
+#'
+#' @examples
+#' #Game Data from TAMU 11/30/2024
+#' game_data <- list(
+#' eFG_pct_home = 47.2,
+#' eFG_pct_away = 50.8,
+#' TO_pct_home = 18.3,
+#' TO_pct_away = 14.6,
+#' OR_pct_home = 43.6,
+#' OR_pct_away = 30.2,
+#' FT_rate_home = .438,
+#' FT_rate_away = .397,
+#' offensive_efficiency_home = 114.3,
+#' defensive_efficiency_home = 94.0,
+#' offensive_efficiency_away = 111.9,
+#' defensive_efficiency_away = 101.4,
+#' pace_home = 67.0,
+#' pace_away = 70.3
+#' )
+#' logistic_model(game_data)
+#' #Actual Score was 81-77
 logistic_model <- function(data){
-  # Coefficients from training a logistic regression model
+  # Coefficients from training a logistic regression model on Basketball Games in 2022
   coefficients <- c(
     intercept = 4.067095,
     eFG_pct_home = -0.016828,

@@ -53,7 +53,7 @@ aggregate_predictions <- function(models_or_predictions, aggregation_method="Med
       warning("Invalid item in models_or_predictions: Must be a function or a length-2 numeric vector.")
     }
   }
-  # [ToDo] Convert the list of predictions to a matrix for easier aggregation
+
   prediction_matrix <- do.call(rbind, predictions)
 
   # 2. Aggregate predictions based on specified method
