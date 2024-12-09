@@ -9,6 +9,8 @@ library(tidyr)
 #' @export
 #'
 #' @examples
+#' library(dplyr)
+#' library(tidyr)
 #' #reading in our sample data
 #' basketball_data <- read.csv("./NCAAggregator/team_box_2022.csv")
 #' wrangle_basketball_data(basketball_data)
