@@ -17,3 +17,12 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(NCAAggregator)
 ```
+
+College Basketball is known to be one of the most predicted sports, especially at the seasons conclusion, the tournament called March Madness, which has [56 Million brackets filled out](https://www.statista.com/statistics/1223099/bracket-march-madness-intention/). There has thus been a quest to create better and better models, to win money, and to break a margin of error of 8.5. As illustrated by many papers, most prominently by Philip Tetlock in his book Superforecasting, in domains with a lot of different sources of signal and noise, aggregating forecasts can be extremely helpful to improve forecasting perfomance, and can often outperform even the best forecasters. Considering basketball has a lot of signal (team performance so far from a variety of metrics, home court, individual matchups, coaching, strength of schedule) and a lot of sources of noise (unlucky misses, players having bad nights, unknown injuries), it seems natural to use aggregation to improve college basketball forecasts. So this is what this package seeks to do. 
+
+##Full Season Workflow 
+
+
+##Combining Models and Forecasts
+
+In that previous example we just looked 
