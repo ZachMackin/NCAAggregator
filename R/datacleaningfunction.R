@@ -22,7 +22,8 @@ globalVariables(c(
 #' library(dplyr)
 #' library(tidyr)
 #' #reading in our sample data
-#' basketball_data <- read.csv("./NCAAggregator/team_box_2022.csv")
+#' file_path <- system.file("extdata", "team_box_2022.csv", package = "NCAAggregator")
+#' basketball_data <- read.csv(file_path)
 #' wrangle_basketball_data(basketball_data)
 wrangle_basketball_data <- function(basketball_data) {
 
