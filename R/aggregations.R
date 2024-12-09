@@ -10,6 +10,24 @@
 #' @export
 #'
 #' @examples
+#' prediction_matrix <- matrix(
+#'   c(
+#'     78, 72,
+#'     80, 74,
+#'     76, 70,
+#'     82, 77,
+#'     79, 75,
+#'     81, 73,
+#'     66, 58,
+#'     77, 76,
+#'     79, 74,
+#'     80, 82
+#'
+#'   ),
+#'   ncol = 2,
+#'   byrow = TRUE
+#' )
+#' trimmed_mean(prediction_matrix, trim = 0.1)
 trimmed_mean <- function(prediction_matrix, trim = 0.1) {
   # Check if the input is a matrix
   if (!is.matrix(prediction_matrix)) {
@@ -26,7 +44,7 @@ trimmed_mean <- function(prediction_matrix, trim = 0.1) {
     stop("The matrix must contain numeric values.")
   }
   #[ToDo] Implement our trimmed mean function
-  home_scores <- predicition_matrix[ , 1]
+  home_scores <- prediction_matrix[ , 1]
   away_scores <- prediction_matrix[ , 2]
 
   home_trimmed <- mean(sort(home_scores)[(ceiling(length(home_scores) * trim) + 1):(length(home_scores) - ceiling(length(home_scores) * trim))])
@@ -35,6 +53,22 @@ trimmed_mean <- function(prediction_matrix, trim = 0.1) {
   return(c(home_trimmed, away_trimmed))
 }
 
+#' Title
+#'
+#' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
+#' @param priors  A numeric vector representing the prior probabilities for each prediction (row in the matrix).
+#' The length of the priors vector must match the number of rows in the prediction matrix, and the priors must sum to 1.
+#'
+#' @return a numeric length two vector containing the home score and away score forecasts using bayesian averaging
+#' @export
+#'
+#' @examples
+#' # Example matrix of predictions
+#' prediction_matrix <- matrix(c(78, 72, 76, 70, 79, 74), ncol = 2, byrow = TRUE)
+#' priors <- c(0.3, 0.4, 0.3)
+#'
+#' # Perform Bayesian averaging
+#' bayesian_averaging(prediction_matrix, priors)
 bayesian_averaging <- function(prediction_matrix, priors) {
   # Check if the input is a matrix
   if (!is.matrix(prediction_matrix)) {
@@ -66,6 +100,33 @@ bayesian_averaging <- function(prediction_matrix, priors) {
   return(c(bayesian_home_score, bayesian_away_score))
 }
 
+#' Title
+#'
+#' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
+#' @param alpha
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' prediction_matrix <- matrix(
+#'   c(
+#'     78, 72,
+#'     80, 74,
+#'     76, 70,
+#'     82, 77,
+#'     79, 75,
+#'     81, 73,
+#'     66, 58,
+#'     77, 76,
+#'     79, 74,
+#'     80, 82
+#'
+#'   ),
+#'   ncol = 2,
+#'   byrow = TRUE
+#' )
+#' exponential_smoothing(prediction_matrix)
 exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
   # Check if the input is a matrix
   if (!is.matrix(prediction_matrix)) {
@@ -101,6 +162,24 @@ exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
 #' @export
 #'
 #' @examples
+#' prediction_matrix <- matrix(
+#'   c(
+#'     78, 72,
+#'     80, 74,
+#'     76, 70,
+#'     82, 77,
+#'     79, 75,
+#'     81, 73,
+#'     66, 58,
+#'     77, 76,
+#'     79, 74,
+#'     80, 82
+#'
+#'   ),
+#'   ncol = 2,
+#'   byrow = TRUE
+#' )
+#' trimmed_mean(prediction_matrix, trim = 0.1)
 geometric_mean <- function(prediction_matrix) {
   # Check if the input is a matrix
   if (!is.matrix(prediction_matrix)) {
