@@ -1,5 +1,6 @@
 library(dplyr)
 library(tidyr)
+#setting global variables to avoid note
 globalVariables(c(
   "field_goals_made_field_goals_attempted", "three_point_field_goals_made_three_point_field_goals_attempted",
   "free_throws_made_free_throws_attempted", "field_goals_made", "three_point_made", "free_throws_made",
