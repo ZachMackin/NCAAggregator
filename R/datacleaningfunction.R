@@ -1,6 +1,15 @@
 library(dplyr)
 library(tidyr)
-
+globalVariables(c(
+  "field_goals_made_field_goals_attempted", "three_point_field_goals_made_three_point_field_goals_attempted",
+  "free_throws_made_free_throws_attempted", "field_goals_made", "three_point_made", "free_throws_made",
+  "game_id", "home_away", "score", "team_score", "field_goals_attempted", "offensive_rebounds", "turnovers",
+  "free_throws_attempted", "team_id", "season", "game_date", "defensive_rebounds", "possessions", "cum_FGA",
+  "cum_3FGM", "cum_FGM", "cum_possessions", "cum_TO", "cum_OR", "cum_DR", "cum_FTA", "cum_points",
+  "cum_opponent_possessions", "cum_opponent_points", "game_number", "cum_games", "team_name", "eFG_pct",
+  "TO_pct", "OR_pct", "FT_rate", "offensive_efficiency", "defensive_efficiency", "pace", "opponent_points",
+  "opponent_possessions", "turnovers"
+))
 #' Title
 #'
 #' @param basketball_data <- takes in a dataset of the form of that recieved from hoopR Data (https://github.com/sportsdataverse/hoopR-data/tree/main)
