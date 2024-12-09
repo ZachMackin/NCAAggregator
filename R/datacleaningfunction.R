@@ -1,6 +1,17 @@
 library(dplyr)
 library(tidyr)
 
+#' Title
+#'
+#' @param basketball_data <- takes in a dataset of the form of that recieved from hoopR Data (https://github.com/sportsdataverse/hoopR-data/tree/main)
+#'
+#' @return Returns the dataset in a form that works for our aggregation and model functions, does so by computing a variety of metrics and cleaning up the data
+#' @export
+#'
+#' @examples
+#' #reading in our sample data
+#' basketball_data <- read.csv("./NCAAggregator/team_box_2022.csv")
+#' wrangle_basketball_data(basketball_data)
 wrangle_basketball_data <- function(basketball_data) {
 
   # Split the combined columns into separate columns

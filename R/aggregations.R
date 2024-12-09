@@ -103,9 +103,9 @@ bayesian_averaging <- function(prediction_matrix, priors) {
 #' Title
 #'
 #' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
-#' @param alpha
+#' @param alpha The rate at which we smooth
 #'
-#' @return
+#' @return  a numeric length two vector containg the aggregated home and away score forcasts using a geometric mean
 #' @export
 #'
 #' @examples

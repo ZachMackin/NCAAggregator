@@ -65,7 +65,7 @@ efficency_model <- function(data) {
 #' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #' @param pythagorean_param the exponenet in our Pythogorean Score function (highly reccommended to keep at default 11.5 for best behavior)
 #'
-#' @returna numeric length two vector containing the home score and away score of the model
+#' @return numeric length two vector containing the home score and away score of the model
 #' @export
 #'
 #' @examples
