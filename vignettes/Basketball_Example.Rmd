@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(NCAAggregator)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 ```
 
 College Basketball is known to be one of the most predicted sports, especially at the seasons conclusion, the tournament called March Madness, which has [56 Million brackets filled out](https://www.statista.com/statistics/1223099/bracket-march-madness-intention/). There has thus been a quest to create better and better models, to win money, and to break a margin of error of 8.5. As illustrated by many papers, most prominently by Philip Tetlock in his book Superforecasting, in domains with a lot of different sources of signal and noise, aggregating forecasts can be extremely helpful to improve forecasting perfomance, and can often outperform even the best forecasters. Considering basketball has a lot of signal (team performance so far from a variety of metrics, home court, individual matchups, coaching, strength of schedule) and a lot of sources of noise (unlucky misses, players having bad nights, unknown injuries), it seems natural to use aggregation to improve college basketball forecasts. So this is what this package seeks to do. 
@@ -31,7 +32,140 @@ data_2021 <- read.csv(file_path)
 regression_2021 <- wrangle_basketball_data(data_2021)
 ```
 
+Now let's run each of our constructed models to predict the games (this will take about 20 secs)
+```{r}
 
+models <- c(linear_reg_model, logistic_model, efficiency_model, log5_model)
+
+# Create an empty matrix to store predictions
+prediction_matrix <- matrix(nrow = nrow(regression_2021), ncol = length(models) * 2)
+
+# Apply models to each row
+for (i in seq_along(models)) {
+  model <- models[[i]]
+  for (j in 1:nrow(regression_2021)){
+    predictions <- model(regression_2021[j, ])
+    prediction_matrix[j, (2 * i - 1):(2 * i)] <- predictions
+  }
+}
+```
+
+Now let's run each of our aggregation functions (will take slightly longer than the one before)
+```{r}
+
+models <- c(linear_reg_model, logistic_model, efficiency_model, log5_model)
+methods <- c("Geometric Mean",
+    "Exponential Smoothing",
+    "Mean",
+    "Median")
+# Create an empty matrix to store predictions
+prediction_matrix_agg <- matrix(nrow = nrow(regression_2021), ncol = length(methods) * 2)
+
+# Apply models to each row
+for (i in seq_along(methods)) {
+  method <- methods[[i]]
+  for (j in 1:nrow(regression_2021)){
+    predictions <- aggregate_predictions(models, aggregation_method = method, data=regression_2021[j, ])
+    prediction_matrix_agg[j, (2 * i - 1):(2 * i)] <- predictions
+  }
+}
+```
+
+Now let's evaluate these methods and functions 
+```{r}
+accuracies <- numeric(length(models))  
+margin_of_errors <- numeric(length(models)) 
+# Get actual home and away scores
+actual_home <- regression_2021[, "score_home"]
+actual_away <- regression_2021[, "score_away"]
+
+# Loop through each model's predictions (each column of prediction_matrix)
+for (i in 1:length(models)) {
+  # Get predicted home and away scores
+  predicted_home <- prediction_matrix[, (2*i-1)]
+  predicted_away <- prediction_matrix[, (2*i)]
+
+  
+  
+  # Calculate margin of error for this model
+  moe <- sum(abs(predicted_home - actual_home) + abs(predicted_away - actual_away))
+  margin_of_errors[i] <- moe/nrow(regression_2021)
+  
+  # Calculate accuracy: If predicted home > predicted away matches the actual home > away, it's correct
+  correct_predictions <- sum((predicted_home > predicted_away) == (actual_home > actual_away))
+  print(correct_predictions)
+  accuracies[i] <- (correct_predictions / nrow(regression_2021)) * 100
+}
+
+# Print results
+model_results <- data.frame(
+  Model = c("linear_reg_model", "logistic_model", "efficiency_model", "log5_model"),
+  Accuracy = accuracies,
+  Margin_of_Error = margin_of_errors
+)
+model_results
+```
+
+As we can see none of these models do too great on their own, which we expected as these are just simple models, however their all decently above 50%. Let's see if any of our aggregation methods improve their performance. 
+```{r}
+accuracies <- numeric(length(methods))  
+margin_of_errors <- numeric(length(methods)) 
+
+
+# Loop through each model's predictions (each column of prediction_matrix)
+for (i in 1:length(methods)) {
+  # Get predicted home and away scores
+  predicted_home <- prediction_matrix_agg[, (2*i-1)]
+  predicted_away <- prediction_matrix_agg[, (2*i)]
+
+  
+  
+  # Calculate margin of error for this model
+  moe <- sum(abs(predicted_home - actual_home) + abs(predicted_away - actual_away))
+  margin_of_errors[i] <- moe/nrow(regression_2021)
+  
+  # Calculate accuracy: If predicted home > predicted away matches the actual home > away, it's correct
+  correct_predictions <- sum((predicted_home > predicted_away) == (actual_home > actual_away))
+  accuracies[i] <- (correct_predictions / nrow(regression_2021)) * 100
+}
+
+# Print results
+model_results_agg <- data.frame(
+  Model = methods,
+  Accuracy = accuracies,
+  Margin_of_Error = margin_of_errors
+)
+model_results_agg
+```
+We see in this case the aggregation, does not quite beat our best methods but they do introduce some stability. To see this let's compare Geometric Means margin of error histogram to Log5:
+```{r}
+predictions_geometric_home <- prediction_matrix_agg[, 1]
+predictions_geometric_away <- prediction_matrix_agg[, 2]
+
+predictions_log5_home <- prediction_matrix[, 7]
+predictions_log5_away <- prediction_matrix[, 8]
+
+
+# Calculate the margin of error for each game
+moe_geometric <- abs(predictions_geometric_home - actual_home) + abs(predictions_geometric_away - actual_away)
+moe_log5 <- abs(predictions_log5_home - actual_home) + abs(predictions_log5_away - actual_away)
+
+#constructing margin of error data frame
+moe_data <- data.frame(
+  Geometric_Mean = as.numeric(unlist(moe_geometric)),  
+  Log5 = as.numeric(unlist(moe_log5)) 
+)
+
+
+ggplot() +
+  geom_histogram(data = moe_data, aes(x = Geometric_Mean, fill= "Geometric Mean"), fill = "red", alpha = 0.5, binwidth = 1) +
+  geom_histogram(data = moe_data, aes(x = Log5, fill = "Log5"), fill = "blue", alpha = 0.5, binwidth = 1) +
+  labs(title = "Margin of Error Comparison", x = "Margin of Error", y = "Frequency") +
+  theme_minimal()
+```
+We can see the stability as the Blue (representing the model) is right of the red (representing the agg function). 
+
+Ultimately stability of predictions is extremely important and a good enough reason to utilize aggregations, however once you start including more expert models better performance comes as well. 
 ##Combining Models and Forecasts
 
 In that previous example we just looked at integrating the models included in the package let's look at a single game example to see how we combine external forecasts (in the form of a length two vector) and existing models.  

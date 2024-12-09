@@ -25,9 +25,9 @@
 #' pace_home = 67.0,
 #' pace_away = 70.3
 #' )
-#' efficency_model(game_data)
+#' efficiency_model(game_data)
 #' #Actual Score was 81-77
-efficency_model <- function(data) {
+efficiency_model <- function(data) {
   # Adjust Offensive and Defensive Efficiencies by 1.4% (home court advantage)
   home_off_eff <- data$offensive_efficiency_home * 1.014
   home_def_eff <- data$defensive_efficiency_home * 0.986
@@ -53,8 +53,8 @@ efficency_model <- function(data) {
   avg_score <- (home_avg_score + away_avg_score) / 2
 
   # Calculate Home and Away Scores Using the Margin
-  home_score <- avg_score + (margin / 2)
-  away_score <- avg_score - (margin / 2)
+  away_score <- avg_score + (margin / 2)
+  home_score <- avg_score - (margin / 2)
 
   return (c(home_score, away_score))
 
@@ -119,8 +119,8 @@ log5_model <- function(data, pythagorean_param=11.5){
   avg_score <- (home_avg_score + away_avg_score) / 2
 
   # Calculate Home and Away Scores Using the Margin
-  home_score <- avg_score + (margin / 2)
-  away_score <- avg_score - (margin / 2)
+  away_score <- avg_score + (margin / 2)
+  home_score <- avg_score - (margin / 2)
 
   return (c(home_score, away_score))
 }

@@ -46,7 +46,7 @@ pace_away = 70.3
 )
 #Input model, three score predictions (VEGAS, KENPOM, and EvanMiya), and then our four functions
 input = c(c(78, 72.5), c(76, 70), c(79, 74),
-efficency_model, log5_model, linear_reg_model, logistic_model)
+efficiency_model, log5_model, linear_reg_model, logistic_model)
 aggregate_predictions(input, aggregation_method="Geometric Mean", data=game_data)
 #Actual Score was 81-77
 

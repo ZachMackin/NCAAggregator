@@ -16,4 +16,5 @@ RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     tidyr, 
-    magrittr
+    magrittr,
+    ggplot2
