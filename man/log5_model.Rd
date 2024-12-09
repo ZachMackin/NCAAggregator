@@ -11,6 +11,9 @@ log5_model(data, pythagorean_param = 11.5)
 
 \item{pythagorean_param}{the exponenet in our Pythogorean Score function (highly reccommended to keep at default 11.5 for best behavior)}
 }
+\value{
+numeric length two vector containing the home score and away score of the model
+}
 \description{
 Title
 }

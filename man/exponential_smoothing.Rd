@@ -9,7 +9,10 @@ exponential_smoothing(prediction_matrix, alpha = 0.5)
 \arguments{
 \item{prediction_matrix}{Takes in a matrix with home scores in one column and away scores in the other}
 
-\item{alpha}{}
+\item{alpha}{The rate at which we smooth}
+}
+\value{
+a numeric length two vector containg the aggregated home and away score forcasts using a geometric mean
 }
 \description{
 Title
