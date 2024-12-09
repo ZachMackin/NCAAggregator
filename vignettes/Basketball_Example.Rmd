@@ -93,7 +93,6 @@ for (i in 1:length(models)) {
   
   # Calculate accuracy: If predicted home > predicted away matches the actual home > away, it's correct
   correct_predictions <- sum((predicted_home > predicted_away) == (actual_home > actual_away))
-  print(correct_predictions)
   accuracies[i] <- (correct_predictions / nrow(regression_2021)) * 100
 }
 
@@ -166,6 +165,42 @@ ggplot() +
 We can see the stability as the Blue (representing the model) is right of the red (representing the agg function). 
 
 Ultimately stability of predictions is extremely important and a good enough reason to utilize aggregations, however once you start including more expert models better performance comes as well. 
+
 ##Combining Models and Forecasts
 
-In that previous example we just looked at integrating the models included in the package let's look at a single game example to see how we combine external forecasts (in the form of a length two vector) and existing models.  
+In that previous example we just looked at integrating the models included in the package let's look at a single game example to see how we combine external forecasts (in the form of a length two vector) and existing models. To do so let's predict (at the time I'm writing this) the California Golden Bears next game (Go Bears!). 
+
+When you get new week data (using HoopR as mentioned before) one row of it will look like this 
+```{r}
+#data for Cal vs Cornell (12/10/24)
+cal_data <- game_data <- list(
+eFG_pct_home = 54.1,
+eFG_pct_away = 57.4,
+TO_pct_home = 18.6,
+TO_pct_away = 17.6,
+OR_pct_home = 37.3,
+OR_pct_away = 25.6,
+FT_rate_home = .434,
+FT_rate_away = .301,
+offensive_efficiency_home = 111.3,
+defensive_efficiency_home = 107.5,
+offensive_efficiency_away = 110.9,
+defensive_efficiency_away = 108.5,
+pace_home = 69.8,
+pace_away = 71.3
+ )
+```
+Now let's compile some score predictions, just using two Vegas lines, KenPom, and Evan Miya here and put it together with our models. These advanced predictions should give our aggregation better effectiveness
+```{r}
+#This is the format we want predictions for our aggregator
+prediction_vector <- list(c(84, 80), c(83, 79), c(81.44, 81.88), c(87, 81),
+                       efficiency_model, log5_model, linear_reg_model, logistic_model)
+```
+Now with those two things combined let's use our aggregation function to get a bayesian averaged prediction
+
+```{r}
+#Weighting the advance analytics more because we know they are better 
+priors = c(0.2, 0.2, 0.2, 0.2, 0.05, 0.05, 0.05, 0.05)
+aggregate_predictions(prediction_vector, aggregation_method="Bayesian Averaging", data=cal_data, priors)
+```
+Here it predicts Cal will win a close one by two points (Vegas for example picks Cal by 4). Only time will tell but I hope the model is right!

@@ -12,7 +12,7 @@ aggregate_predictions(
 )
 }
 \arguments{
-\item{models_or_predictions}{<- a vector which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score}
+\item{models_or_predictions}{<- a list which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score}
 
 \item{aggregation_method}{<- A string representing the name of the aggregation method (defaults to median)}
 
@@ -45,7 +45,7 @@ pace_home = 67.0,
 pace_away = 70.3
 )
 #Input model, three score predictions (VEGAS, KENPOM, and EvanMiya), and then our four functions
-input = c(c(78, 72.5), c(76, 70), c(79, 74),
+input = list(c(78, 72.5), c(76, 70), c(79, 74),
 efficiency_model, log5_model, linear_reg_model, logistic_model)
 aggregate_predictions(input, aggregation_method="Geometric Mean", data=game_data)
 #Actual Score was 81-77

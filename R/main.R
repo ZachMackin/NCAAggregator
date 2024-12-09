@@ -1,7 +1,7 @@
 # Our primary function
 #' Title
 #'
-#' @param models_or_predictions <- a vector which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score
+#' @param models_or_predictions <- a list which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score
 #' @param aggregation_method <- A string representing the name of the aggregation method (defaults to median)
 #' @param data <- A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #' @param ... <- additional arguments to be passed in our aggregator
@@ -28,7 +28,7 @@
 #' pace_away = 70.3
 #' )
 #' #Input model, three score predictions (VEGAS, KENPOM, and EvanMiya), and then our four functions
-#' input = c(c(78, 72.5), c(76, 70), c(79, 74),
+#' input = list(c(78, 72.5), c(76, 70), c(79, 74),
 #' efficiency_model, log5_model, linear_reg_model, logistic_model)
 #' aggregate_predictions(input, aggregation_method="Geometric Mean", data=game_data)
 #' #Actual Score was 81-77
@@ -47,12 +47,12 @@ aggregate_predictions <- function(models_or_predictions, aggregation_method="Med
       }
     } else if (is.numeric(item) && length(item) == 2) {
       # If the item is a numeric vector of length 2, treat it as a pre-generated prediction
+
       predictions[[length(predictions) + 1]] <- item
     } else {
       warning("Invalid item in models_or_predictions: Must be a function or a length-2 numeric vector.")
     }
   }
-
   prediction_matrix <- do.call(rbind, predictions)
 
   # 2. Aggregate predictions based on specified method
