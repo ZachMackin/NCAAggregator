@@ -1,6 +1,6 @@
 #some example models to utilize in the aggregator (need to consider the functionality to choose a newly trained model weights vs the pretrained models in the fx)
 
-#' Title
+#' Efficiency Model
 #'
 #' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #'
@@ -60,7 +60,7 @@ efficiency_model <- function(data) {
 
 }
 
-#' Title
+#' Log5 Model
 #'
 #' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #' @param pythagorean_param the exponenet in our Pythogorean Score function (highly reccommended to keep at default 11.5 for best behavior)
@@ -125,7 +125,7 @@ log5_model <- function(data, pythagorean_param=11.5){
   return (c(home_score, away_score))
 }
 
-#' Title
+#' Linear Regression Model
 #'
 #' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #'
@@ -201,7 +201,7 @@ linear_reg_model <- function(data){
 }
 
 
-#' Title
+#' Logistic Model
 #'
 #' @param data A list with the selcted statistics (the four factors for home and away, off and def efficency for home and away, and Pace/Tempo for home and away)
 #'

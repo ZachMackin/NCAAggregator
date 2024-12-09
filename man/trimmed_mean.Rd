@@ -2,7 +2,7 @@
 % Please edit documentation in R/aggregations.R
 \name{trimmed_mean}
 \alias{trimmed_mean}
-\title{Title}
+\title{Trimmed Mean}
 \usage{
 trimmed_mean(prediction_matrix, trim = 0.1)
 }

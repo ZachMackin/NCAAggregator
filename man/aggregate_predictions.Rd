@@ -2,7 +2,7 @@
 % Please edit documentation in R/main.R
 \name{aggregate_predictions}
 \alias{aggregate_predictions}
-\title{Title}
+\title{Aggregate Predictions}
 \usage{
 aggregate_predictions(
   models_or_predictions,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/datacleaningfunction.R
 \name{wrangle_basketball_data}
 \alias{wrangle_basketball_data}
-\title{Title}
+\title{Wrangle Basketball Data}
 \usage{
 wrangle_basketball_data(basketball_data)
 }

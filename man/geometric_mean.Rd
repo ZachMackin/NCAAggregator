@@ -2,7 +2,7 @@
 % Please edit documentation in R/aggregations.R
 \name{geometric_mean}
 \alias{geometric_mean}
-\title{Title}
+\title{Geometric Mean}
 \usage{
 geometric_mean(prediction_matrix)
 }

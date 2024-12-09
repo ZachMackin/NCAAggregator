@@ -1,5 +1,5 @@
 # Our primary function
-#' Title
+#' Aggregate Predictions
 #'
 #' @param models_or_predictions <- a list which have elements of one of two forms, either a numeric length two vector containing the home score and away score of a prediction, or a function that takes in data (of the format explained in data) and returns a numeric length two vector containing the home score and away score
 #' @param aggregation_method <- A string representing the name of the aggregation method (defaults to median)

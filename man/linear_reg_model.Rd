@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{linear_reg_model}
 \alias{linear_reg_model}
-\title{Title}
+\title{Linear Regression Model}
 \usage{
 linear_reg_model(data)
 }

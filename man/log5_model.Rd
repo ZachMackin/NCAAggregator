@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{log5_model}
 \alias{log5_model}
-\title{Title}
+\title{Log5 Model}
 \usage{
 log5_model(data, pythagorean_param = 11.5)
 }

@@ -201,6 +201,8 @@ Now with those two things combined let's use our aggregation function to get a b
 ```{r}
 #Weighting the advance analytics more because we know they are better 
 priors = c(0.2, 0.2, 0.2, 0.2, 0.05, 0.05, 0.05, 0.05)
+#Here we see with the additional argument priors any additional functions can go into the aggregation functions arguments. 
 aggregate_predictions(prediction_vector, aggregation_method="Bayesian Averaging", data=cal_data, priors)
 ```
 Here it predicts Cal will win a close one by two points (Vegas for example picks Cal by 4). Only time will tell but I hope the model is right!
+

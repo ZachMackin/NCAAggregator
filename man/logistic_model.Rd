@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{logistic_model}
 \alias{logistic_model}
-\title{Title}
+\title{Logistic Model}
 \usage{
 logistic_model(data)
 }

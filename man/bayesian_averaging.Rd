@@ -2,7 +2,7 @@
 % Please edit documentation in R/aggregations.R
 \name{bayesian_averaging}
 \alias{bayesian_averaging}
-\title{Title}
+\title{Bayesian Averaging}
 \usage{
 bayesian_averaging(prediction_matrix, priors)
 }

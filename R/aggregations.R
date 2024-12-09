@@ -1,7 +1,7 @@
 
 #Aggregation Functions
 
-#' Title
+#' Trimmed Mean
 #'
 #' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
 #' @param trim The proportion of scores you would like to remove before taking the mean
@@ -53,7 +53,7 @@ trimmed_mean <- function(prediction_matrix, trim = 0.1) {
   return(c(home_trimmed, away_trimmed))
 }
 
-#' Title
+#' Bayesian Averaging
 #'
 #' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
 #' @param priors  A numeric vector representing the prior probabilities for each prediction (row in the matrix).
@@ -100,7 +100,7 @@ bayesian_averaging <- function(prediction_matrix, priors) {
   return(c(bayesian_home_score, bayesian_away_score))
 }
 
-#' Title
+#' Exponential Smoothing
 #'
 #' @param prediction_matrix Takes in a matrix with home scores in one column and away scores in the other
 #' @param alpha The rate at which we smooth
@@ -154,7 +154,7 @@ exponential_smoothing <- function(prediction_matrix, alpha = 0.5) {
   return(c(home_score, away_score))
 }
 
-#' Title
+#' Geometric Mean
 #'
 #' @param prediction_matrix A matrix with home scores in one column and away scores in the other
 #'

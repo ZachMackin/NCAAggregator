@@ -11,7 +11,7 @@ globalVariables(c(
   "TO_pct", "OR_pct", "FT_rate", "offensive_efficiency", "defensive_efficiency", "pace", "opponent_points",
   "opponent_possessions", "turnovers"
 ))
-#' Title
+#' Wrangle Basketball Data
 #'
 #' @param basketball_data <- takes in a dataset of the form of that recieved from hoopR Data (https://github.com/sportsdataverse/hoopR-data/tree/main)
 #'

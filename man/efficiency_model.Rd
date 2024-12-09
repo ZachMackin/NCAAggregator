@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{efficiency_model}
 \alias{efficiency_model}
-\title{Title}
+\title{Efficiency Model}
 \usage{
 efficiency_model(data)
 }
