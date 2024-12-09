@@ -2,7 +2,7 @@ Package: NCAAggregator
 Type: Package
 Title: College Basketball Predictor
 Version: 0.1.0
-Author: Zachary Mackin
+Author: person("Zachary", "Mackin", email = "zachmackin@tamu.edu", role = c("aut", "cre"))
 Maintainer: The package maintainer <zachmackin@tamu.edu>
 Description: This package is mainly built around an aggregation function that can take in a variety of basketball models and the statistics from two teams and predicts the outcome of a game using a variety of aggregation methods. Also includes some models for predicting. 
 License: GPL (>= 3)
@@ -13,3 +13,6 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
+Imports: 
+    dplyr,
+    tidyr
